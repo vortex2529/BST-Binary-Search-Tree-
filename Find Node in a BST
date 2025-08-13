@@ -1,0 +1,19 @@
+
+bool FindNodeInBST(Node* root,int target){
+  if(!root){
+    cout<<"Not Found"<<endl;
+    return false;
+  }
+
+  if(root->data == target){
+    cout<<"Target found"<<endl;
+    return true;
+  }
+  else if(root->data > target){
+    return FindNodeInBST(root->left,target);
+  }
+  else{
+    return FindNodeInBST(root->right,target);
+  }
+
+}
