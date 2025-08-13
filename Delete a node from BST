@@ -1,0 +1,55 @@
+int maxVal(Node* root){
+  if(!root) return -1;
+
+  Node* temp = root;
+  while(temp->right){
+    temp = temp->right;
+  }
+  return temp->data;
+}
+
+
+Node* deleteNodeFromBST(Node* root,int target){
+  if(!root) {
+    return NULL;
+  }
+
+  if(root->data == target){
+      // case A: leaf
+      if(!root->left && !root->right){
+        delete root;
+        return NULL;
+      }
+      // case B: left child exist
+      else if(root->left && !root->right){
+        Node* child = root->left;
+        // delete root;
+        return child;
+      }
+      // case C: right child exist
+      else if(!root->left && root->right){
+        Node* child = root->right;
+        // delete root;
+        return child;
+      }
+      // case D: both child exist
+      else{
+        // find inorderPre in left subtree
+        int inorderPre = maxVal(root->left);
+        // replace root->data from inorderPre
+        root->data = inorderPre;
+        // delete inorderPre from left subtree
+        root->left = deleteNodeFromBST(root->left,inorderPre);
+        return root;
+
+      }
+  }
+  else if(root->data > target){
+    root->left = deleteNodeFromBST(root->left,target);
+  }
+  else if(root->data < target){
+    root->right = deleteNodeFromBST(root->right,target);
+  }
+
+  return root;
+}
