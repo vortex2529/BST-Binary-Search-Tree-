@@ -1,0 +1,13 @@
+Node* inorderPredecessor(Node* root, int key) {
+    Node* pre = NULL;
+    while (root) {
+        if (key <= root->key) {
+            root = root->left;
+        }
+        else {
+            pre = root; // candidate predecessor
+            root = root->right;
+        }
+    }
+    return pre;
+}
