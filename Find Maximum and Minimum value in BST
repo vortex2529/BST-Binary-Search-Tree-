@@ -1,0 +1,24 @@
+
+class Solution {
+  public:
+    int findMax(Node *root) {
+        if(!root) return -1;
+        
+        Node* temp = root;
+        while(temp->right){
+            temp = temp->right;
+        }
+        return temp->data;
+        
+    }
+
+    int findMin(Node *root) {
+        if(!root) return -1;
+        
+        Node* temp = root;
+        while(temp->left){
+            temp = temp->left;
+        }
+        return temp->data;
+    }
+};
