@@ -23,33 +23,7 @@ class NodeData{
 };
 
 
-// Node* insertIntoBST(Node* root,int data){
-//     if(!root){
-//       // if first node
-//       root = new Node(data);
-//       return root;
-//     }
 
-//       // if not the first node
-//     if(root->data > data){
-//       // insert into left
-//       root->left = insertIntoBST(root->left,data);
-//     }
-//     else{
-//       // insert into right
-//       root->right = insertIntoBST(root->right,data);
-//     }
-
-//     return root;
-// }
-// void takeInput(Node* &root){
-//     int data;
-//     cin>>data;
-//     while(data != -1){
-//       root = insertIntoBST(root,data);
-//       cin>>data;
-//     }
-// }
 void LevelOrderTraversal_PrintLevelWise(Node* root){
   queue<Node*> q;
 
@@ -97,31 +71,31 @@ Node* buildTree(){
 
 
 
-NodeData largestBstFromBT(Node* root,int &ans){
+NodeData* largestBstFromBT(Node* root,int &ans){
   if(!root){
-    NodeData temp(0,INT_MIN,INT_MAX,true); //size,max,min,valid
+    NodeData* temp = new NodeData(0,INT_MIN,INT_MAX,true); //size,max,min,valid
     return temp;
   }
 
-  NodeData left = largestBstFromBT(root->left,ans);
-  NodeData right = largestBstFromBT(root->right,ans);
+  NodeData* left = largestBstFromBT(root->left,ans);
+  NodeData* right = largestBstFromBT(root->right,ans);
 
 
-  NodeData curr;
+  NodeData* curr = new NodeData();
 
-  curr.size = left.size + right.size + 1;
-  curr.maxVal = max(root->data,right.maxVal);
-  curr.minVal = min(root->data,left.minVal);
+  curr->size = left->size + right->size + 1;
+  curr->maxVal = max(root->data,right->maxVal);
+  curr->minVal = min(root->data,left->minVal);
   
-  if(left.validBST && right.validBST && (root->data > left.maxVal && root->data < right.minVal)){
-      curr.validBST = true;
+  if(left->validBST && right->validBST && (root->data > left->maxVal && root->data < right->minVal)){
+      curr->validBST = true;
   }
   else{ 
-      curr.validBST = false;
+      curr->validBST = false;
   }
 
-  if(curr.validBST){
-    ans = max(ans,curr.size);
+  if(curr->validBST){
+    ans = max(ans,curr->size);
   }
   return curr;
 
@@ -135,7 +109,7 @@ int main() {
     cout<<endl;
 
     int ans = 0;
-    NodeData temp = largestBstFromBT(root,ans);
+    NodeData* temp = largestBstFromBT(root,ans);
 
     cout<<"Printing Size of Largest BST nodes in a B.T :"<<ans<<endl;
 
