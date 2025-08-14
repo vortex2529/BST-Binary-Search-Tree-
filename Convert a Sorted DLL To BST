@@ -1,0 +1,19 @@
+Node* sortedDLLToBST(Node* &head,int n){
+    if(n<=0 || !head) return 0;
+
+    // solve left part
+    Node* leftSubtree = sortedDLLToBST(head,n-1-n/2);
+
+    // create root
+    Node* root = head;
+    // connect root to left part
+    root->left = leftSubtree;
+
+    // update head
+    head = head->right;
+
+    // solve for right part
+    root->right = sortedDLLToBST(head,n/2);
+
+    return root;
+}
