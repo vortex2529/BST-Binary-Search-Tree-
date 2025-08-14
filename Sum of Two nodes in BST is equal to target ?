@@ -1,0 +1,30 @@
+class Solution {
+public:
+    void solve(TreeNode* root,vector<int> &ans){
+        if(!root) return;
+        
+        solve(root->left,ans);
+        ans.push_back(root->val);
+        solve(root->right,ans);
+    }
+    bool findTarget(TreeNode* root, int k) {
+        vector<int> ans;
+        solve(root,ans);
+
+        int i=0, j= ans.size()-1;
+
+        while(i<j){
+            int target = ans[i]+ans[j];
+            if(target == k){
+                return true;
+            }
+            else if(target < k){
+                i++;
+            }
+            else{
+                j--;
+            }
+        }
+        return false;
+    }
+};
