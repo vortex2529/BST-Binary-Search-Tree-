@@ -1,0 +1,20 @@
+void convertIntoSortedDLL(Node* root,Node* &head){
+  if(!root) return;
+
+  // right subtree solve
+  convertIntoSortedDLL(root->right,head);
+
+  // root connect
+  root->right = head;
+
+  if(head){
+    head->left = root;
+  }
+
+  // update head
+  head = root;
+
+  // left subtree solve
+  convertIntoSortedDLL(root->left,head);
+
+}
