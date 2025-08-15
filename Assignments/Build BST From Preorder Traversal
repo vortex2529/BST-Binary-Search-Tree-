@@ -1,0 +1,52 @@
+
+// Brute force T.C=O(N^2)
+class Solution {
+public:
+    TreeNode* insertIntoBST(TreeNode* root,int val){
+        if(!root){
+            return new TreeNode(val);
+        }
+        
+        if(val > root->val){
+            root->right = insertIntoBST(root->right,val);
+        }
+        else if(val < root->val){
+            root->left = insertIntoBST(root->left,val);
+        }
+
+        return root;
+    }
+    TreeNode* bstFromPreorder(vector<int>& preorder) {
+        TreeNode* root = 0;
+
+        for(int val:preorder){
+            root = insertIntoBST(root,val);
+        }
+        return root;
+    }
+};
+
+
+
+// optimal T.C=O(N)
+class Solution {
+public:
+    TreeNode* build(int &i,int min,int max,vector<int>&preorder){
+        if(i >= preorder.size()){
+            return nullptr;
+        }
+
+        TreeNode* root = nullptr;
+        if(preorder[i] > min && preorder[i] < max){
+            root = new TreeNode(preorder[i++]);
+            root->left = build(i,min,root->val,preorder);
+            root->right = build(i,root->val,max,preorder);
+        }
+        return root;
+    }
+    TreeNode* bstFromPreorder(vector<int>& preorder) {
+        int min = INT_MIN,max = INT_MAX;
+        int i=0;
+        return build(i,min,max,preorder);
+    }
+};
