@@ -1,0 +1,35 @@
+class Solution {
+  public:
+    vector<Node*> findPreSuc(Node* root, int key) {
+        
+        Node* pred = 0;
+        Node* curr = root;
+        while(curr){
+            if(key <= curr->data){
+                curr = curr->left;
+            }
+            else{
+                pred = curr;
+                curr = curr->right;
+            }
+        }
+        
+        
+        Node* succ = 0;
+        curr = root;
+        while(curr){
+            if(key < curr->data){
+                succ = curr;
+                curr = curr->left;
+            }
+            else{
+                
+                curr = curr->right;
+            }
+        }
+        
+        return {pred,succ};
+        
+        
+    }
+};
