@@ -1,0 +1,48 @@
+// Brute force
+
+class Solution {
+public:
+    void solve(TreeNode* root,int low,int high,int &sum){
+        if(!root) return;
+        solve(root->left,low,high,sum);
+        
+        if(root->val >= low && root->val <=high){
+            sum += root->val;
+        }
+        solve(root->right,low,high,sum);
+    }
+    int rangeSumBST(TreeNode* root, int low, int high) {
+        int sum = 0;
+        solve(root,low,high,sum);
+        return sum;
+    }
+};
+
+
+// Optimal
+
+
+class Solution {
+public:
+    int rangeSumBST(TreeNode* root, int low, int high) {
+       if(!root) return 0;
+
+       int ans = 0;
+       bool wasInRange = false;
+
+       if(root->val >= low && root->val <= high){
+            wasInRange = true; 
+            ans+= root->val;
+       } 
+       if(wasInRange){
+            ans += rangeSumBST(root->left,low,high) + rangeSumBST(root->right,low,high);
+       }
+       else if(root->val < low){
+            ans += rangeSumBST(root->right,low,high);
+       }
+       else if(root->val > high){
+            ans += rangeSumBST(root->left,low,high);
+       }
+       return ans;
+    }
+};
