@@ -1,0 +1,83 @@
+//Brute Force
+
+class Solution {
+  public:
+    int count = 0; 
+    bool search(Node* root,int x){
+        if(!root) return false;
+        
+        if(root->data == x){
+            return true;
+        }
+        else if(root->data < x){
+            return search(root->right,x);
+        }
+        else if(root->data > x){
+            return search(root->left,x);
+        }
+    }
+    void solve(Node* root1, Node* root2, int x){
+        if(!root1){
+            return;
+        }
+        solve(root1->left,root2,x);
+        if(search(root2,x-root1->data)) count++;
+        solve(root1->right,root2,x);
+  
+    }
+    int countPairs(Node* root1, Node* root2, int x) {
+        solve(root1,root2,x);
+        return count;
+    }
+};
+
+// Optimal
+
+class Solution {
+  public:
+    int countPairs(Node* root1, Node* root2, int x) {
+        int ans = 0;
+        stack<Node*> s1,s2;
+        
+        Node* a= root1;
+        Node* b=root2;
+        
+        while(1){
+            while(a){
+                s1.push(a);
+                a = a-> left;
+            }
+            
+            while(b){
+                s2.push(b);
+                b = b->right;
+            }
+            
+            if(s1.empty() || s2.empty()){
+                break;
+            }
+            
+            auto atop = s1.top();
+            auto btop = s2.top();
+            int sum = atop->data + btop->data;
+            
+            if(sum == x){
+                ans++;
+                s1.pop();
+                s2.pop();
+                a = atop->right;
+                b = btop->left;
+            }
+            else if(sum < x){
+                s1.pop();
+                a = atop->right;
+            }
+            else if(sum > x){
+                s2.pop();
+                b = btop->left;
+            }
+        }
+        
+        return ans;
+    }
+};
