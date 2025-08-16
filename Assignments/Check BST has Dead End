@@ -1,0 +1,30 @@
+
+class Solution {
+  public:
+    void hasDeadEnd(Node* root,unordered_map<int,bool>&vis,bool &ans){
+        if(!root) return;
+        
+        
+        vis[root->data] = true;
+        
+        if(!root->left && !root->right){
+            int xp1 = root->data + 1;
+            int xm1 = root->data - 1 == 0? root->data:root->data-1;
+           if(vis.find(xm1) != vis.end() && vis.find(xp1) != vis.end()){
+               ans = true;
+               return;
+           } 
+        }
+        
+        hasDeadEnd(root->left,vis,ans);
+        hasDeadEnd(root->right,vis,ans);
+        
+    }
+    bool isDeadEnd(Node *root) {
+        bool ans = false;
+        unordered_map<int,bool> visited;
+        hasDeadEnd(root,visited,ans);
+        return ans;
+        
+    }
+};
