@@ -1,0 +1,59 @@
+
+
+// Brute force
+class Solution {
+  public:
+    vector<int> findLeastGreater(vector<int>& arr, int n) {
+        vector<int> ans(n,-1);
+        for(int i=0;i<n;i++){
+            int nxt_greater = INT_MAX;
+            for(int j=i+1;j<n;j++){
+                if(arr[j] > arr[i] && arr[j] < nxt_greater){
+                    nxt_greater = arr[j];
+                }
+            }
+            
+            if(nxt_greater != INT_MAX) ans[i] = nxt_greater;
+        }
+        return ans;
+    }
+};
+
+
+
+// Better / optimal 
+class Node{
+    public:
+    int data;
+    Node* left;
+    Node* right;
+    
+    Node(int _data):data(_data),left(nullptr),right(nullptr){}
+};
+class Solution {
+  public:
+    Node* insertIntoBST(Node* root,int val,int &succ){
+        if(!root) {
+            return new Node(val);
+        }
+        
+        if(val >= root->data){
+            root->right = insertIntoBST(root->right,val,succ);
+        }
+        else{
+            succ = root->data;
+            root->left = insertIntoBST(root->left,val,succ);
+        }
+        return root;
+    }
+    vector<int> findLeastGreater(vector<int>& arr, int n) {
+        vector<int> ans(n,-1);
+        Node* root = 0;
+        for(int i=n-1;i>=0;i--){
+            int succ = -1;
+            root = insertIntoBST(root,arr[i],succ);
+            ans[i] = succ;
+        }
+        return ans;
+    }
+};
